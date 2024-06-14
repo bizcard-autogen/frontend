@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         main: '#3c53a5',
+        ltmain: '#4d64b8',
         faded: '#eff1f7',
       },
     },
