@@ -4,6 +4,7 @@ import SearchTagSelectorItem from './item';
 
 export type SearchTagSelectorProps = {
   keyword: string,
+  visible: boolean,
   onSelect: (tag: Tag) => void,
 };
 
@@ -14,7 +15,7 @@ export default function SearchTagSelector(props: SearchTagSelectorProps) {
     { id: '2', text: 'スタイリッシュ' },
   ]);
 
-  if (!props.keyword.length) {
+  if (!props.visible) {
     return;
   }
 
