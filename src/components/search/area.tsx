@@ -12,7 +12,7 @@ export default function SearchArea() {
 
   return (
     <div className='flex flex-col w-1/2 max-w-[500px]'>
-      <SearchBar />
+      <SearchBar onSelectTag={onSelectTag} />
       <div className='flex flex-wrap gap-1 mt-3'>
         {
           tags.map((item) => (
@@ -22,6 +22,14 @@ export default function SearchArea() {
       </div>
     </div>
   );
+
+  function onSelectTag(tag: Tag) {
+    const hasTag = tags.findIndex((item) => item.id === tag.id) !== -1;
+    if (!hasTag) {
+      const newTags = [...tags, tag];
+      setTags(newTags);
+    }
+  }
 
   function onRemoveTag(id: string) {
     const newTags = tags.filter((item) => item.id !== id);
