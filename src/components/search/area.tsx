@@ -4,11 +4,7 @@ import SearchTag from './tag';
 import { Tag } from '@/utils/tag';
 
 export default function SearchArea() {
-  const [tags, setTags] = useState<Tag[]>([
-    { id: '0', text: 'かっこいい' },
-    { id: '1', text: 'シンプル' },
-    { id: '2', text: 'スタイリッシュ' },
-  ]);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   return (
     <div className='flex flex-col w-1/2 max-w-[500px]'>
