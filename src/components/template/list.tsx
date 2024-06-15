@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TemplateItem from './item';
 import { Template } from '@/utils/template';
+import * as firestore from 'firebase/firestore';
+import { db } from '@/utils/firebase';
 
 export default function TemplateList() {
-  const [templates, setTemplates] = useState<Template[]>([
-    { id: '0', name: '0000', thumbnailUrl: 'https://i.gyazo.com/b29ca8055b61a06ef25c198b164b5950.png' },
-    { id: '1', name: '0001', thumbnailUrl: 'https://i.gyazo.com/b29ca8055b61a06ef25c198b164b5950.png' },
-  ]);
+  const [templates, setTemplates] = useState<Template[]>([]);
+
+  useEffect(() => {
+    updateTemplates();
+  }, []);
 
   return (
     <div className='flex justify-center'>
@@ -19,4 +22,15 @@ export default function TemplateList() {
       </div>
     </div>
   );
+
+  async function updateTemplates() {
+    const newTemplates: Template[] = [];
+    const templatesCollectionRef = firestore.collection(db, 'templates');
+    const templateDocsRef = await firestore.getDocs(templatesCollectionRef);
+    templateDocsRef.docs.forEach(async (snapshot) => {
+      const converted = Template.fromFirestore(snapshot.id, snapshot.data());
+      newTemplates.push(converted);
+    });
+    setTemplates(newTemplates);
+  }
 }

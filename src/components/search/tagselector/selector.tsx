@@ -71,7 +71,7 @@ export default function SearchTagSelector(props: SearchTagSelectorProps) {
     const newTags: Tag[] = [];
     const tagsCollectionRef = firestore.collection(db, 'tags');
     const tagsDoc = await firestore.getDocs(tagsCollectionRef);
-    tagsDoc.docs.forEach(async (snapshot) => {
+    tagsDoc.docs.forEach((snapshot) => {
       const converted = Tag.fromFirestore(snapshot.id, snapshot.data());
       newTags.push(converted);
     });
