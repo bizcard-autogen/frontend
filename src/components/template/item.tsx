@@ -8,7 +8,7 @@ export type TemplateItemProps = {
 
 export default function TemplateItem(props: TemplateItemProps) {
   return (
-    <Link href={'/new/' + props.template.id}>
+    <Link href={'/create/' + props.template.id}>
       <div className='bg-faded h-[151px] w-[250px]'>
         <Image
           className='cursor-pointer select-none'

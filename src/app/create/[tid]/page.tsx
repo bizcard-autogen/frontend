@@ -9,7 +9,7 @@ import * as firestore from 'firebase/firestore';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function New() {
+export default function CreateTemplate() {
   const { tid } = useParams();
   const [template, setTemplate] = useState<Template>();
 
