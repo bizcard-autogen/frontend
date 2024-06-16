@@ -23,7 +23,7 @@ export default function CardPreview(props: CardPreviewProps) {
           {props.title}
         </span>
       </span>
-      <div className='bg-faded mt-2 h-[207px] w-[343px]' id={svgWrapperId} ref={previewRef}>
+      <div className='bg-faded mt-2 h-[207px] w-[343px] select-none' id={svgWrapperId} ref={previewRef}>
       </div>
     </div>
   );

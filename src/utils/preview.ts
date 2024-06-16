@@ -16,7 +16,7 @@ export type SvgTextOptions = {
   x: number,
   y: number,
   fontFamily: string,
-  size: number,
+  fontSize: number,
   bold?: boolean,
 };
 
@@ -65,9 +65,9 @@ export namespace CardPreviewUtils {
       .text(options.text)
       .move(options.x, options.y)
       .font('family', options.fontFamily)
-      .font('size', options.size)
+      .font('size', options.fontSize)
     if (options.bold) {
-      text.font('weight', 'noramal');
-    }console.log(svg.svg())
+      text.font('weight', 'bold');
+    }
   }
 }

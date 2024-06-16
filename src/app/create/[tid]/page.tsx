@@ -51,9 +51,9 @@ export default function CreateTemplate() {
     CardPreviewUtils.drawText(svgSet.current, CardPreviewKind.Front, {
       text: '名刺　太郎',
       x: 50,
-      y: 65,
-      fontFamily: 'serif',
-      size: 20,
+      y: 100,
+      fontFamily: 'Zen Maru Gothic',
+      fontSize: 20,
       bold: true,
     });
   }
