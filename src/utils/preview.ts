@@ -1,8 +1,7 @@
 import { SVG, Svg, Text } from '@svgdotjs/svg.js';
 import { Template, TemplateLayout } from './template';
 
-// todo: CardPreviewSide に改名
-export enum CardPreviewKind {
+export enum CardPreviewSide {
   Front = 'front',
   Back = 'back',
 }
@@ -15,45 +14,45 @@ export type SvgSet = {
 export type SvgModifier = Text;
 
 export namespace CardPreviewUtils {
-  function initialize(template: Template, kind: CardPreviewKind): Svg {
-    const selector = '#cardPreview_' + kind;
+  function initialize(template: Template, side: CardPreviewSide): Svg {
+    const selector = '#cardPreview_' + side;
     const svg = SVG().addTo(selector).size(343, 207);
-    drawMaterial(svg, template, kind);
+    drawMaterial(svg, template, side);
     return svg;
   }
 
   export function initializeAll(template: Template): SvgSet {
     return {
-      front: initialize(template, CardPreviewKind.Front),
-      back: initialize(template, CardPreviewKind.Back),
+      front: initialize(template, CardPreviewSide.Front),
+      back: initialize(template, CardPreviewSide.Back),
     };
   }
 
-  function selectSvg(svgSet: SvgSet, kind: CardPreviewKind): Svg {
-    switch (kind) {
-      case CardPreviewKind.Front:
+  function selectSvg(svgSet: SvgSet, side: CardPreviewSide): Svg {
+    switch (side) {
+      case CardPreviewSide.Front:
         return svgSet.front;
 
-      case CardPreviewKind.Back:
+      case CardPreviewSide.Back:
         return svgSet.back;
     }
   }
 
-  export function drawMaterial(svg: Svg, template: Template, kind: CardPreviewKind) {
+  export function drawMaterial(svg: Svg, template: Template, side: CardPreviewSide) {
     let materialUrl;
-    switch (kind) {
-      case CardPreviewKind.Front:
+    switch (side) {
+      case CardPreviewSide.Front:
         materialUrl = template.frontMaterialUrl;
         break;
 
-      case CardPreviewKind.Back:
+      case CardPreviewSide.Back:
         materialUrl = template.backMaterialUrl;
         break;
     }
     svg.image().load(materialUrl).size(343, 207);
   }
 
-  export function drawText(svgSet: SvgSet, side: CardPreviewKind, layout: TemplateLayout, text: string): SvgModifier {
+  export function drawText(svgSet: SvgSet, side: CardPreviewSide, layout: TemplateLayout, text: string): SvgModifier {
     const svg = selectSvg(svgSet, side);
     const modifier = svg
       .text(text)

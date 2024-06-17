@@ -1,14 +1,14 @@
-import { CardPreviewKind } from '@/utils/preview';
+import { CardPreviewSide } from '@/utils/preview';
 import { useEffect, useRef } from 'react';
 
 export type CardPreviewProps = {
-  kind: CardPreviewKind,
+  side: CardPreviewSide,
   title: string,
 };
 
 export default function CardPreview(props: CardPreviewProps) {
   const previewRef = useRef<HTMLDivElement>(null);
-  const svgWrapperId = 'cardPreview_' + props.kind;
+  const svgWrapperId = 'cardPreview_' + props.side;
 
   useEffect(() => {
     if (!previewRef.current) {

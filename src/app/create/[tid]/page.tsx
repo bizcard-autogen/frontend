@@ -3,7 +3,7 @@
 import CardPreview from '@/components/card/preview';
 import CardUserInput from '@/components/card/userinput';
 import { db } from '@/utils/firebase';
-import { CardPreviewKind, CardPreviewUtils, SvgModifier, SvgSet } from '@/utils/preview';
+import { CardPreviewSide, CardPreviewUtils, SvgModifier, SvgSet } from '@/utils/preview';
 import { Template, TextTemplateLayout } from '@/utils/template';
 import { Text } from '@svgdotjs/svg.js';
 import * as firestore from 'firebase/firestore';
@@ -43,8 +43,8 @@ export default function CreateTemplate() {
         }
       </div>
       <div className='flex flex-col gap-8'>
-        <CardPreview kind={CardPreviewKind.Front} title='表デザイン' />
-        <CardPreview kind={CardPreviewKind.Back} title='裏デザイン' />
+        <CardPreview side={CardPreviewSide.Front} title='表デザイン' />
+        <CardPreview side={CardPreviewSide.Back} title='裏デザイン' />
       </div>
     </div>
   );
@@ -59,7 +59,7 @@ export default function CreateTemplate() {
     setTemplate(newTemplate);
     svgSet.current = CardPreviewUtils.initializeAll(newTemplate);
 
-    CardPreviewUtils.drawMaterial(svgSet.current.front, newTemplate, CardPreviewKind.Front);
+    CardPreviewUtils.drawMaterial(svgSet.current.front, newTemplate, CardPreviewSide.Front);
     newTemplate.elements.forEach((item) => {
       svgModifiers.current[item.id] = CardPreviewUtils.drawText(svgSet.current!, item.side, item.layout, '')
     });
