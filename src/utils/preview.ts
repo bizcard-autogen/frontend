@@ -1,5 +1,5 @@
 import { SVG, Svg, Text } from '@svgdotjs/svg.js';
-import { Template } from './template';
+import { Template, TemplateLayout } from './template';
 
 export enum CardPreviewKind {
   Front = 'front',
@@ -11,14 +11,7 @@ export type SvgSet = {
   back: Svg,
 };
 
-export type SvgTextOptions = {
-  text: string,
-  x: number,
-  y: number,
-  fontFamily: string,
-  fontSize: number,
-  bold?: boolean,
-};
+export type SvgModifier = Text;
 
 export namespace CardPreviewUtils {
   function initialize(template: Template, kind: CardPreviewKind): Svg {
@@ -59,17 +52,17 @@ export namespace CardPreviewUtils {
     svg.image().load(materialUrl).size(343, 207);
   }
 
-  export function drawText(svgSet: SvgSet, kind: CardPreviewKind, options: SvgTextOptions): Text {
+  export function drawText(svgSet: SvgSet, kind: CardPreviewKind, layout: TemplateLayout, text: string): SvgModifier {
     const svg = selectSvg(svgSet, kind);
-    const text = svg
-      .text(options.text)
-      .move(options.x, options.y)
-      .font('family', options.fontFamily)
-      .font('size', options.fontSize)
-    if (options.bold) {
-      text.font('weight', 'bold');
+    const modifier = svg
+      .text(text)
+      .move(layout.x, layout.y)
+      .font('family', layout.fontFamily)
+      .font('size', layout.fontSize)
+    if (layout.bold) {
+      modifier.font('weight', 'bold');
     }
-    return text;
+    return modifier;
   }
 
   export function changeText(text: Text, to: string) {

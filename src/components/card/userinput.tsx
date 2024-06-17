@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 
 export type CardUserInputProps = {
-  required: boolean,
+  required?: boolean,
   title: string,
   placeholder: string,
   onChange?: (text: string) => void,

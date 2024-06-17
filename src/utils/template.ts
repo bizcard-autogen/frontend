@@ -6,6 +6,7 @@ export type Template = {
   thumbnailUrl: string,
   frontMaterialUrl: string,
   backMaterialUrl: string,
+  elements: TemplateElement[],
 };
 
 export namespace Template {
@@ -16,6 +17,30 @@ export namespace Template {
       thumbnailUrl: data.thumbnailUrl,
       frontMaterialUrl: data.frontMaterialUrl,
       backMaterialUrl: data.backMaterialUrl,
+      elements: JSON.parse(data.elements).data,
     };
   }
 }
+
+export type TemplateElement = {
+  id: string,
+  title: string,
+  layout: TemplateLayout,
+};
+
+export enum TemplateKind {
+  Text = 'text',
+}
+
+export type TemplateLayout = 
+  | TextTemplateLayout;
+
+export type TextTemplateLayout = {
+  kind: TemplateKind.Text,
+  placeholder: string,
+  x: number,
+  y: number,
+  fontFamily: string,
+  fontSize: number,
+  bold?: boolean,
+};
