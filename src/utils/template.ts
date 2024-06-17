@@ -1,4 +1,5 @@
 import * as firestore from 'firebase/firestore';
+import { CardPreviewKind } from './preview';
 
 export type Template = {
   id: string,
@@ -25,6 +26,7 @@ export namespace Template {
 export type TemplateElement = {
   id: string,
   title: string,
+  side: CardPreviewKind,
   layout: TemplateLayout,
 };
 

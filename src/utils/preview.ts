@@ -1,6 +1,7 @@
 import { SVG, Svg, Text } from '@svgdotjs/svg.js';
 import { Template, TemplateLayout } from './template';
 
+// todo: CardPreviewSide に改名
 export enum CardPreviewKind {
   Front = 'front',
   Back = 'back',
@@ -52,8 +53,8 @@ export namespace CardPreviewUtils {
     svg.image().load(materialUrl).size(343, 207);
   }
 
-  export function drawText(svgSet: SvgSet, kind: CardPreviewKind, layout: TemplateLayout, text: string): SvgModifier {
-    const svg = selectSvg(svgSet, kind);
+  export function drawText(svgSet: SvgSet, side: CardPreviewKind, layout: TemplateLayout, text: string): SvgModifier {
+    const svg = selectSvg(svgSet, side);
     const modifier = svg
       .text(text)
       .move(layout.x, layout.y)

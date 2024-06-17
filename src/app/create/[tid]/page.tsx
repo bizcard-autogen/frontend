@@ -61,7 +61,7 @@ export default function CreateTemplate() {
 
     CardPreviewUtils.drawMaterial(svgSet.current.front, newTemplate, CardPreviewKind.Front);
     newTemplate.elements.forEach((item) => {
-      svgModifiers.current[item.id] = CardPreviewUtils.drawText(svgSet.current!, CardPreviewKind.Front, item.layout, '')
+      svgModifiers.current[item.id] = CardPreviewUtils.drawText(svgSet.current!, item.side, item.layout, '')
     });
   }
 }
