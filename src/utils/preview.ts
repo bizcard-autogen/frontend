@@ -1,4 +1,4 @@
-import { SVG, Svg } from '@svgdotjs/svg.js';
+import { SVG, Svg, Text } from '@svgdotjs/svg.js';
 import { Template } from './template';
 
 export enum CardPreviewKind {
@@ -59,7 +59,7 @@ export namespace CardPreviewUtils {
     svg.image().load(materialUrl).size(343, 207);
   }
 
-  export function drawText(svgSet: SvgSet, kind: CardPreviewKind, options: SvgTextOptions) {
+  export function drawText(svgSet: SvgSet, kind: CardPreviewKind, options: SvgTextOptions): Text {
     const svg = selectSvg(svgSet, kind);
     const text = svg
       .text(options.text)
@@ -69,5 +69,10 @@ export namespace CardPreviewUtils {
     if (options.bold) {
       text.font('weight', 'bold');
     }
+    return text;
+  }
+
+  export function changeText(text: Text, to: string) {
+    text.text(to);
   }
 }

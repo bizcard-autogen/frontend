@@ -5,6 +5,7 @@ import CardUserInput from '@/components/card/userinput';
 import { db } from '@/utils/firebase';
 import { CardPreviewKind, CardPreviewUtils, SvgSet } from '@/utils/preview';
 import { Template } from '@/utils/template';
+import { Text } from '@svgdotjs/svg.js';
 import * as firestore from 'firebase/firestore';
 
 import { useParams } from 'next/navigation';
@@ -15,6 +16,7 @@ export default function CreateTemplate() {
   const [template, setTemplate] = useState<Template>();
   const svgSet = useRef<SvgSet | null>(null);
   const hasUpdatedTemplate = useRef(false);
+  const role1Ref = useRef<Text | null>(null);
 
   useEffect(() => {
     if (hasUpdatedTemplate.current) {
@@ -27,7 +29,12 @@ export default function CreateTemplate() {
   return (
     <div className='flex justify-center gap-10 my-10'>
       <div className='flex flex-col gap-5'>
-        <CardUserInput required title='肩書１（組織名・職業）' placeholder='フリーランス' />
+        <CardUserInput
+          required
+          title='肩書１（組織名・職業）'
+          placeholder='フリーランス'
+          onChange={(text) => CardPreviewUtils.changeText(role1Ref.current!, text)}
+        />
         <CardUserInput required={false} title='肩書２（役職）' placeholder='フリーランス' />
       </div>
       <div className='flex flex-col gap-8'>
@@ -48,12 +55,36 @@ export default function CreateTemplate() {
     svgSet.current = CardPreviewUtils.initializeAll(newTemplate);
 
     CardPreviewUtils.drawMaterial(svgSet.current.front, newTemplate, CardPreviewKind.Front)
+    role1Ref.current = CardPreviewUtils.drawText(svgSet.current, CardPreviewKind.Front, {
+      text: 'ABC株式会社',
+      x: 50,
+      y: 23,
+      fontFamily: 'Zen Maru Gothic',
+      fontSize: 9,
+      bold: true,
+    });
+    CardPreviewUtils.drawText(svgSet.current, CardPreviewKind.Front, {
+      text: '代表取締役',
+      x: 50,
+      y: 35,
+      fontFamily: 'Zen Maru Gothic',
+      fontSize: 9,
+      bold: true,
+    });
     CardPreviewUtils.drawText(svgSet.current, CardPreviewKind.Front, {
       text: '名刺　太郎',
       x: 50,
-      y: 100,
+      y: 60,
       fontFamily: 'Zen Maru Gothic',
       fontSize: 20,
+      bold: true,
+    });
+    CardPreviewUtils.drawText(svgSet.current, CardPreviewKind.Front, {
+      text: 'Taro Meishi',
+      x: 50,
+      y: 75,
+      fontFamily: 'Zen Maru Gothic',
+      fontSize: 10,
       bold: true,
     });
   }
