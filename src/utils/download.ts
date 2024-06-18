@@ -20,8 +20,8 @@ export namespace DownloadUtils {
       // 91x55mm with 600dpi
       const height = 1299;
       const width = 2150;
-      canvas.setAttribute('height', height.toString());
-      canvas.setAttribute('width', width.toString());
+      canvas.height = height;
+      canvas.width = width;
       const ctx = canvas.getContext('2d')!;
 
       const img = document.createElement('img');
@@ -38,5 +38,25 @@ export namespace DownloadUtils {
   function getSvgBlobUrl(svg: string) {
     const blob = new Blob([svg], { type: 'image/svg+xml' });
     return URL.createObjectURL(blob);
+  }
+
+  export function getDataUrlFromImage(type: string, url: string, dimensions?: [number, number]): Promise<string> {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d')!;
+
+      const img = document.createElement('img');
+      img.crossOrigin = 'anonymous';
+      img.addEventListener('load', () => {
+        const height = dimensions?.[0] ?? img.height;
+        const width = dimensions?.[1] ?? img.width;
+        canvas.height = height;
+        canvas.width = width;
+        ctx.drawImage(img, 0, 0, width, height);
+        const base64 = canvas.toDataURL(type);
+        resolve(base64);
+      });
+      img.src = url;
+    });
   }
 }

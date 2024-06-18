@@ -1,5 +1,6 @@
 import { SVG, Svg, Text } from '@svgdotjs/svg.js';
 import { Template, TemplateLayout } from './template';
+import { DownloadUtils } from './download';
 
 export enum CardPreviewSide {
   Front = 'front',
@@ -14,6 +15,10 @@ export type SvgSet = {
 export type SvgModifier = Text;
 
 export namespace CardPreviewUtils {
+  // 91x55mm with 600dpi
+  export const canvasHeight = 1299;
+  export const canvasWidth = 2150;
+
   function initialize(template: Template, side: CardPreviewSide): Svg {
     const selector = '#cardPreview_' + side;
     const svg = SVG().addTo(selector).size(343, 207);
@@ -49,26 +54,8 @@ export namespace CardPreviewUtils {
         materialUrl = template.backMaterialUrl;
         break;
     }
-    const base64 = await getDataUrlFromImage(materialUrl);
+    const base64 = await DownloadUtils.getDataUrlFromImage('image/png', materialUrl);
     svg.image().load(base64).size(343, 207);
-  }
-
-  export function getDataUrlFromImage(url: string): Promise<string> {
-    return new Promise((resolve) => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d')!;
-
-      const img = document.createElement('img');
-      img.crossOrigin = 'anonymous';
-      img.addEventListener('load', () => {
-        canvas.height = img.height;
-        canvas.width = img.width;
-        ctx.drawImage(img, 0, 0);
-        const base64 = canvas.toDataURL('image/png');
-        resolve(base64);
-      });
-      img.src = url;
-    });
   }
 
   export function drawText(svgSet: SvgSet, side: CardPreviewSide, layout: TemplateLayout, text: string): SvgModifier {
