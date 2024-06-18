@@ -12,6 +12,8 @@ const config: Config = {
         main: '#3c53a5',
         ltmain: '#4d64b8',
         faded: '#eff1f7',
+        dim: '#6d717d',
+        ltdim: '#898e9a',
       },
     },
   },

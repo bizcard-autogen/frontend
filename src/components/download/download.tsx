@@ -1,6 +1,7 @@
 import { CardPreviewSide, CardPreviewUtils, SvgSet } from '@/utils/preview';
 import Button from '../button';
 import { DownloadUtils } from '@/utils/download';
+import DownloadFormat from './format';
 
 export type DownloadProps = {
   svgSet?: SvgSet,
@@ -14,14 +15,14 @@ export default function Download(props: DownloadProps) {
       className='bg-[#33333388] flex items-center justify-center absolute top-0 left-0 h-[100vh] w-[100vw]'
       style={{ display: props.visible && props.svgSet ? undefined : 'none' }}
     >
-      <div className='bg-white inline-block p-4'>
-        <div className='flex justify-center gap-4 w-64'>
-          <Button text='PNG表' onClick={() => download('image/png', CardPreviewSide.Front, 'front.png')} />
-          <Button text='PNG裏' onClick={() => download('image/png', CardPreviewSide.Back, 'back.png')} />
-          <Button text='JPG表' onClick={() => download('image/jpg', CardPreviewSide.Front, 'front.jpg')} />
-          <Button text='JPG裏' onClick={() => download('image/jpg', CardPreviewSide.Back, 'back.jpg')} />
-          <Button text='閉じる' onClick={props.onClose} />
+      <div className='bg-white inline-flex flex-col items-center gap-8 p-4'>
+        <div className='flex justify-center gap-4'>
+          <DownloadFormat title='PNG' download={(side) => download('image/png', side, side + '.png')} />
+          <DownloadFormat title='JPG' download={(side) => download('image/jpg', side, side + '.jpg')} />
         </div>
+        <span>
+          <Button text='閉じる' dimColor onClick={props.onClose} />
+        </span>
       </div>
     </div>
   );
