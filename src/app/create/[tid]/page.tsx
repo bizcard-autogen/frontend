@@ -3,12 +3,11 @@
 import Button from '@/components/button';
 import CardPreview from '@/components/card/preview';
 import CardUserInput from '@/components/card/userinput';
+import Download from '@/components/download/download';
 import { db } from '@/utils/firebase';
 import { CardPreviewSide, CardPreviewUtils, SvgModifier, SvgSet } from '@/utils/preview';
 import { Template, TextTemplateLayout } from '@/utils/template';
-import { Text } from '@svgdotjs/svg.js';
 import * as firestore from 'firebase/firestore';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -18,6 +17,7 @@ export default function CreateTemplate() {
   const svgSet = useRef<SvgSet | null>(null);
   const hasUpdatedTemplate = useRef(false);
   const svgModifiers = useRef<{ [id: string]: SvgModifier }>({});
+  const [downloadVisible, setDownloadVisible] = useState(false);
 
   useEffect(() => {
     if (hasUpdatedTemplate.current) {
@@ -28,6 +28,7 @@ export default function CreateTemplate() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
+    <>
     <div className='flex justify-center gap-10 py-10 h-[calc(100vh-50px)]'>
       <div className='flex flex-col items-center gap-5 overflow-scroll scrollbar-none'>
         {
@@ -43,15 +44,19 @@ export default function CreateTemplate() {
             ))
           )
         }
-        <Link href={`/create/${tid}/generate`}>
-          <Button text='生成に進む' onClick={proceedToGenerate} />
-        </Link>
+        <Button text='ダウンロード' onClick={() => setDownloadVisible(true)} />
       </div>
       <div className='flex flex-col gap-8'>
         <CardPreview side={CardPreviewSide.Front} title='表デザイン' />
         <CardPreview side={CardPreviewSide.Back} title='裏デザイン' />
       </div>
     </div>
+    <Download
+      svgSet={svgSet.current ?? undefined}
+      visible={downloadVisible}
+      onClose={() => setDownloadVisible(false)}
+    />
+    </>
   );
 
   async function updateTemplate() {
@@ -64,13 +69,9 @@ export default function CreateTemplate() {
     setTemplate(newTemplate);
     svgSet.current = CardPreviewUtils.initializeAll(newTemplate);
 
-    CardPreviewUtils.drawMaterial(svgSet.current.front, newTemplate, CardPreviewSide.Front);
+    await CardPreviewUtils.drawMaterial(svgSet.current.front, newTemplate, CardPreviewSide.Front);
     newTemplate.elements.forEach((item) => {
       svgModifiers.current[item.id] = CardPreviewUtils.drawText(svgSet.current!, item.side, item.layout, '')
     });
-  }
-
-  function proceedToGenerate() {
-    // 
   }
 }

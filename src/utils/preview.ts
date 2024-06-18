@@ -38,7 +38,7 @@ export namespace CardPreviewUtils {
     }
   }
 
-  export function drawMaterial(svg: Svg, template: Template, side: CardPreviewSide) {
+  export async function drawMaterial(svg: Svg, template: Template, side: CardPreviewSide) {
     let materialUrl;
     switch (side) {
       case CardPreviewSide.Front:
@@ -49,7 +49,26 @@ export namespace CardPreviewUtils {
         materialUrl = template.backMaterialUrl;
         break;
     }
-    svg.image().load(materialUrl).size(343, 207);
+    const base64 = await getDataUrlFromImage(materialUrl);
+    svg.image().load(base64).size(343, 207);
+  }
+
+  export function getDataUrlFromImage(url: string): Promise<string> {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d')!;
+
+      const img = document.createElement('img');
+      img.crossOrigin = 'anonymous';
+      img.addEventListener('load', () => {
+        canvas.height = img.height;
+        canvas.width = img.width;
+        ctx.drawImage(img, 0, 0);
+        const base64 = canvas.toDataURL('image/png');
+        resolve(base64);
+      });
+      img.src = url;
+    });
   }
 
   export function drawText(svgSet: SvgSet, side: CardPreviewSide, layout: TemplateLayout, text: string): SvgModifier {
