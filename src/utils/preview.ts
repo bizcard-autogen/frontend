@@ -33,7 +33,7 @@ export namespace CardPreviewUtils {
     };
   }
 
-  function selectSvg(svgSet: SvgSet, side: CardPreviewSide): Svg {
+  export function selectSvg(svgSet: SvgSet, side: CardPreviewSide): Svg {
     switch (side) {
       case CardPreviewSide.Front:
         return svgSet.front;

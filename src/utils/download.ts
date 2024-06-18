@@ -1,5 +1,3 @@
-import { SvgSet } from './preview';
-
 export namespace DownloadUtils {
   export function downloadUrl(filename: string, url: string) {
     const a = document.createElement('a');
@@ -8,13 +6,7 @@ export namespace DownloadUtils {
     a.click();
   }
 
-  export async function getAllDownloadUrl(type: string, svgSet: SvgSet): Promise<[string, string]> {
-    const frontUrl = await getDownloadUrl(type, svgSet.front.svg());
-    const backUrl = await getDownloadUrl(type, svgSet.back.svg());
-    return [frontUrl, backUrl];
-  }
-
-  function getDownloadUrl(type: string, svg: string): Promise<string> {
+  export function getDownloadUrl(type: string, svg: string): Promise<string> {
     return new Promise((resolve) => {
       const canvas = document.createElement('canvas');
       // 91x55mm with 600dpi
