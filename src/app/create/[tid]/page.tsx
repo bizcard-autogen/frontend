@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/button';
 import CardPreview from '@/components/card/preview';
 import CardUserInput from '@/components/card/userinput';
 import { db } from '@/utils/firebase';
@@ -7,6 +8,7 @@ import { CardPreviewSide, CardPreviewUtils, SvgModifier, SvgSet } from '@/utils/
 import { Template, TextTemplateLayout } from '@/utils/template';
 import { Text } from '@svgdotjs/svg.js';
 import * as firestore from 'firebase/firestore';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -26,8 +28,8 @@ export default function CreateTemplate() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className='flex justify-center gap-10 my-10'>
-      <div className='flex flex-col gap-5'>
+    <div className='flex justify-center gap-10 py-10 h-[calc(100vh-50px)]'>
+      <div className='flex flex-col items-center gap-5 overflow-scroll scrollbar-none'>
         {
           template && (
             template.elements.map((item) => (
@@ -41,6 +43,9 @@ export default function CreateTemplate() {
             ))
           )
         }
+        <Link href={`/create/${tid}/generate`}>
+          <Button text='生成に進む' onClick={proceedToGenerate} />
+        </Link>
       </div>
       <div className='flex flex-col gap-8'>
         <CardPreview side={CardPreviewSide.Front} title='表デザイン' />
@@ -63,5 +68,9 @@ export default function CreateTemplate() {
     newTemplate.elements.forEach((item) => {
       svgModifiers.current[item.id] = CardPreviewUtils.drawText(svgSet.current!, item.side, item.layout, '')
     });
+  }
+
+  function proceedToGenerate() {
+    // 
   }
 }
