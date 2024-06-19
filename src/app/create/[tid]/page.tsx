@@ -51,7 +51,7 @@ export default function CreateTemplate() {
         }
         <Button text='ダウンロード' onClick={() => setDownloadVisible(true)} />
       </div>
-      <div className='flex flex-col gap-8'>
+      <div className='flex flex-col gap-8 overflow-scroll scrollbar-none'>
         <CardPreview side={CardPreviewSide.Front} title='表デザイン' />
         <CardPreview side={CardPreviewSide.Back} title='裏デザイン' />
       </div>
