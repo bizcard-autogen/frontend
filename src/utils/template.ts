@@ -42,7 +42,32 @@ export type TextTemplateLayout = {
   placeholder: string,
   x: number,
   y: number,
+  align?: TextAlign,
   fontFamily: string,
   fontSize: number,
   bold?: boolean,
 };
+
+export enum TextAlign {
+  Left = 'left',
+  Center = 'center',
+  Right = 'right',
+}
+
+export namespace TextAlign {
+  export function toAnchor(align?: TextAlign): string {
+    switch (align) {
+      case undefined:
+        return 'start';
+
+      case TextAlign.Left:
+        return 'start';
+
+      case TextAlign.Center:
+        return 'middle';
+
+      case TextAlign.Right:
+        return 'end';
+    }
+  }
+}

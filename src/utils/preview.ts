@@ -1,5 +1,5 @@
 import { SVG, Svg, Text } from '@svgdotjs/svg.js';
-import { Template, TemplateLayout } from './template';
+import { Template, TemplateLayout, TextAlign } from './template';
 import { DownloadUtils } from './download';
 
 export enum CardPreviewSide {
@@ -67,6 +67,7 @@ export namespace CardPreviewUtils {
       .move(layout.x, layout.y)
       .font('family', layout.fontFamily)
       .font('size', layout.fontSize)
+      .font('anchor', TextAlign.toAnchor(layout.align));
     if (layout.bold) {
       modifier.font('weight', 'bold');
     }
