@@ -10,11 +10,12 @@ export type DownloadProps = {
 };
 
 export default function Download(props: DownloadProps) {
+  if (!props.visible || !props.svgSet) {
+    return;
+  }
+
   return (
-    <div
-      className='bg-[#33333388] flex items-center justify-center absolute top-0 left-0 h-[100vh] w-[100vw]'
-      style={{ display: props.visible && props.svgSet ? undefined : 'none' }}
-    >
+    <div className='bg-[#33333388] flex items-center justify-center absolute top-0 left-0 h-[100vh] w-[100vw]'>
       <div className='bg-white inline-flex flex-col items-center gap-8 p-4'>
         <div className='flex justify-center gap-4'>
           <DownloadFormat title='PNG' download={(side) => download('image/png', side, side + '.png')} />

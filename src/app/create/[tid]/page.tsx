@@ -3,10 +3,11 @@
 import Button from '@/components/button';
 import CardPreview from '@/components/card/preview';
 import CardUserInput from '@/components/card/userinput';
+import CardManager from '@/components/cardman/cardman';
 import Download from '@/components/download/download';
 import { db } from '@/utils/firebase';
 import { CardPreviewSide, CardPreviewUtils, SvgModifier, SvgSet } from '@/utils/preview';
-import { Template, TextTemplateLayout } from '@/utils/template';
+import { Template, TemplateElement, TextTemplateLayout } from '@/utils/template';
 import * as firestore from 'firebase/firestore';
 import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -24,7 +25,11 @@ export default function CreateTemplate() {
       return;
     }
     hasUpdatedTemplate.current = true;
-    updateTemplate();
+    fetchTemplate().then((newTemplate) => {
+      if (newTemplate) {
+        updateTemplate(newTemplate);
+      }
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -51,6 +56,7 @@ export default function CreateTemplate() {
         <CardPreview side={CardPreviewSide.Back} title='裏デザイン' />
       </div>
     </div>
+    <CardManager elements={template?.elements} onChangeElements={onChangeElements} />
     <Download
       svgSet={svgSet.current ?? undefined}
       visible={downloadVisible}
@@ -59,13 +65,16 @@ export default function CreateTemplate() {
     </>
   );
 
-  async function updateTemplate() {
+  async function fetchTemplate(): Promise<Template | null> {
     const templateDocRef = firestore.doc(db, 'templates', tid as string);
     const templateDoc = await firestore.getDoc(templateDocRef);
     if (!templateDoc.exists()) {
-      return;
+      return null;
     }
-    const newTemplate = Template.fromFirestore(templateDoc.id, templateDoc.data());
+    return Template.fromFirestore(templateDoc.id, templateDoc.data());
+  }
+
+  async function updateTemplate(newTemplate: Template) {
     setTemplate(newTemplate);
     svgSet.current = CardPreviewUtils.initializeAll(newTemplate);
 
@@ -73,5 +82,11 @@ export default function CreateTemplate() {
     newTemplate.elements.forEach((item) => {
       svgModifiers.current[item.id] = CardPreviewUtils.drawText(svgSet.current!, item.side, item.layout, '')
     });
+  }
+
+  function onChangeElements(elements: TemplateElement[]) {
+    const newTemplate = Object.assign({}, template);
+    newTemplate.elements = elements;
+    updateTemplate(newTemplate);
   }
 }

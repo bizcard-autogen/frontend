@@ -21,6 +21,8 @@ export namespace CardPreviewUtils {
 
   function initialize(template: Template, side: CardPreviewSide): Svg {
     const selector = '#cardPreview_' + side;
+    // SVG の再生成を想定して svg 要素が既に存在すれば削除する
+    document.querySelector(selector + ' > svg')?.remove();
     const svg = SVG().addTo(selector).size(343, 207);
     drawMaterial(svg, template, side);
     return svg;
