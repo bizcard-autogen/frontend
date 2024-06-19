@@ -1,5 +1,5 @@
+import * as React from 'react';
 import { SvgProps } from '@/utils/icon';
-import * as React from 'react'
 
 export default function CloseIcon(props: SvgProps) {
   return (

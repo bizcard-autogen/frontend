@@ -1,5 +1,5 @@
-import { SvgProps } from '@/utils/icon';
 import * as React from 'react';
+import { SvgProps } from '@/utils/icon';
 
 export default function LeftIcon(props: SvgProps) {
   return (

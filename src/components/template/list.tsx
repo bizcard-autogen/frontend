@@ -3,9 +3,11 @@ import TemplateItem from './item';
 import { Template } from '@/utils/template';
 import * as firestore from 'firebase/firestore';
 import { db } from '@/utils/firebase';
+import LoadingIcon from '@/icons/loading';
 
 export default function TemplateList() {
   const [templates, setTemplates] = useState<Template[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     updateTemplates();
@@ -14,6 +16,7 @@ export default function TemplateList() {
   return (
     <div className='flex justify-center'>
       <div className='flex flex-wrap gap-3 justify-center mx-3'>
+        {loading && <LoadingIcon scale={0.5} opacity={0.4} />}
         {
           templates.map((item) => (
             <TemplateItem template={item} key={item.id} />
@@ -32,5 +35,6 @@ export default function TemplateList() {
       newTemplates.push(converted);
     });
     setTemplates(newTemplates);
+    setLoading(false);
   }
 }
