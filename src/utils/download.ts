@@ -28,7 +28,7 @@ export namespace DownloadUtils {
     });
   }
 
-  function getSvgBlobUrl(svg: string) {
+  export function getSvgBlobUrl(svg: string) {
     const blob = new Blob([svg], { type: 'image/svg+xml' });
     return URL.createObjectURL(blob);
   }

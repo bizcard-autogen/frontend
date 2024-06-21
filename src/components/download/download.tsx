@@ -25,6 +25,7 @@ export default function Download(props: DownloadProps) {
         <div className='flex justify-center gap-4'>
           <DownloadFormat title='PNG' download={(side) => download('image/png', side, side + '.png')} />
           <DownloadFormat title='JPG' download={(side) => download('image/jpg', side, side + '.jpg')} />
+          <DownloadFormat title='SVG' download={(side) => downloadSvg(side, side + '.svg')} />
         </div>
         <div className='mt-8'>
           <Button text='閉じる' dimColor onClick={props.onClose} />
@@ -42,6 +43,18 @@ export default function Download(props: DownloadProps) {
       return;
     }
     const url = await DownloadUtils.getDownloadUrl(type, svg);
+    DownloadUtils.downloadUrl(filename, url);
+  }
+
+  function downloadSvg(side: CardPreviewSide, filename: string) {
+    if (!props.visible) {
+      return;
+    }
+    const svg = CardPreviewUtils.getSvgString(side);
+    if (!svg) {
+      return;
+    }
+    const url = DownloadUtils.getSvgBlobUrl(svg);
     DownloadUtils.downloadUrl(filename, url);
   }
 }
