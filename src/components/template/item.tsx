@@ -12,10 +12,10 @@ export default function TemplateItem(props: TemplateItemProps) {
       <div className='bg-faded h-[151px] w-[250px]'>
         <Image
           className='cursor-pointer select-none'
-          src={props.template.thumbnailUrl}
+          src={Template.getThumbnailPath(props.template)}
           height={151}
           width={250}
-          alt={props.template.name}
+          alt={props.template.id}
         />
       </div>
     </Link>

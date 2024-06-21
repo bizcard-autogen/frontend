@@ -1,17 +1,16 @@
-import { CardPreviewSide, CardPreviewUtils, SvgSet } from '@/utils/preview';
+import { CardPreviewSide, CardPreviewUtils } from '@/utils/preview';
 import Button from '../button';
 import { DownloadUtils } from '@/utils/download';
 import DownloadFormat from './format';
 import Link from 'next/link';
 
 export type DownloadProps = {
-  svgSet?: SvgSet,
   visible: boolean,
   onClose?: () => void,
 };
 
 export default function Download(props: DownloadProps) {
-  if (!props.visible || !props.svgSet) {
+  if (!props.visible) {
     return;
   }
 
@@ -35,11 +34,14 @@ export default function Download(props: DownloadProps) {
   );
 
   async function download(type: string, side: CardPreviewSide, filename: string) {
-    if (!props.svgSet || !props.visible) {
+    if (!props.visible) {
       return;
     }
-    const svg = CardPreviewUtils.selectSvg(props.svgSet, side);
-    const url = await DownloadUtils.getDownloadUrl(type, svg.svg());
+    const svg = CardPreviewUtils.getSvgString(side);
+    if (!svg) {
+      return;
+    }
+    const url = await DownloadUtils.getDownloadUrl(type, svg);
     DownloadUtils.downloadUrl(filename, url);
   }
 }

@@ -1,20 +1,13 @@
-import { CardPreviewSide } from '@/utils/preview';
-import { useEffect, useRef } from 'react';
+import { CardPreviewSide, CardPreviewUtils } from '@/utils/preview';
 
 export type CardPreviewProps = {
   side: CardPreviewSide,
   title: string,
+  templatePath: string,
+  onLoad?: () => void,
 };
 
 export default function CardPreview(props: CardPreviewProps) {
-  const previewRef = useRef<HTMLDivElement>(null);
-  const svgWrapperId = 'cardPreview_' + props.side;
-
-  useEffect(() => {
-    if (!previewRef.current) {
-      return;
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className='flex flex-col items-center'>
@@ -23,7 +16,13 @@ export default function CardPreview(props: CardPreviewProps) {
           {props.title}
         </span>
       </span>
-      <div className='bg-faded mt-2 h-[207px] w-[343px] select-none' id={svgWrapperId} ref={previewRef}>
+      <div className='bg-faded mt-2 h-[207px] w-[343px] select-none'>
+        <object
+          id={CardPreviewUtils.getSvgObjectElementId(props.side)}
+          type="image/svg+xml"
+          data={props.templatePath}
+          onLoad={props.onLoad}
+        />
       </div>
     </div>
   );

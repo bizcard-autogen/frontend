@@ -1,3 +1,5 @@
+import { CardPreviewUtils } from './preview';
+
 export namespace DownloadUtils {
   export function downloadUrl(filename: string, url: string) {
     const a = document.createElement('a');
@@ -9,9 +11,8 @@ export namespace DownloadUtils {
   export function getDownloadUrl(type: string, svg: string): Promise<string> {
     return new Promise((resolve) => {
       const canvas = document.createElement('canvas');
-      // 91x55mm with 600dpi
-      const height = 1299;
-      const width = 2150;
+      const height = CardPreviewUtils.canvasHeight;
+      const width = CardPreviewUtils.canvasWidth;
       canvas.height = height;
       canvas.width = width;
       const ctx = canvas.getContext('2d')!;
