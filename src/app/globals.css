@@ -7,6 +7,11 @@
   src: url('/fonts/ZenMaruGothic-Regular.ttf');
 }
 
+@font-face {
+  font-family: 'Sawarabi Mincho';
+  src: url('/fonts/SawarabiMincho-Regular.ttf');
+}
+
 @layer utilities {
   .scrollbar-none {
     scrollbar-width: none;
