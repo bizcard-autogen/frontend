@@ -8,9 +8,11 @@ import { CardPreviewSide, CardPreviewUtils } from '@/utils/preview';
 import { Template } from '@/utils/template';
 import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import LoadingIcon from '@/icons/loading';
 
 export default function CreateTemplatePage() {
   const { tid } = useParams();
+  const [loading, setLoading] = useState(true);
   const [template, setTemplate] = useState<Template>();
   const hasUpdatedTemplate = useRef(false);
   const [downloadVisible, setDownloadVisible] = useState(false);
@@ -23,25 +25,32 @@ export default function CreateTemplatePage() {
     Template.fetch(tid as string).then((newTemplate) => {
       if (newTemplate) {
         setTemplate(newTemplate);
+        setLoading(false);
       }
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (loading || !template) {
+    return (
+      <div className='flex items-center justify-center h-[calc(100vh-50px)]'>
+        <LoadingIcon scale={0.5} opacity={0.4} />
+      </div>
+    );
+  }
 
   return (
     <>
     <div className='flex justify-center gap-10 py-10 h-[calc(100vh-50px)]'>
       <div className='flex flex-col items-center gap-5 overflow-scroll scrollbar-none'>
         {
-          template && (
-            template.elements.map((item) => (
-              <Input
-                title={item.title}
-                placeholder='' // fix
-                onChange={(text) => CardPreviewUtils.changeTextAll(item.id, text)} // fix
-                key={item.id}
-              />
-            ))
-          )
+          template.elements.map((item) => (
+            <Input
+              title={item.title}
+              placeholder='' // fix
+              onChange={(text) => CardPreviewUtils.changeTextAll(item.id, text)} // fix
+              key={item.id}
+            />
+          ))
         }
         <Button text='ダウンロード' onClick={() => setDownloadVisible(true)} />
       </div>
