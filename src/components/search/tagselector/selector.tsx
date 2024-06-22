@@ -12,22 +12,20 @@ export type SearchTagSelectorProps = {
 
 export default function SearchTagSelector(props: SearchTagSelectorProps) {
   const [allTags, setAllTags] = useState<Tag[]>([]);
-  const [defaultTags, setDefaultTags] = useState<Tag[]>([]);
   const [visibleTags, setVisibleTags] = useState<Tag[]>([]);
 
   useEffect(() => {
-    updateDefaultTags();
     updateAllTags();
   }, []);
 
   useEffect(() => {
     if (!props.keyword) {
-      setVisibleTags(defaultTags);
+      setVisibleTags(allTags);
     } else {
       const newTags = allTags.filter((item) => item.text.includes(props.keyword));
       setVisibleTags(newTags);
     }
-  }, [allTags, defaultTags, props.keyword]);
+  }, [allTags, props.keyword]);
 
   if (!props.visible) {
     return;
@@ -50,22 +48,6 @@ export default function SearchTagSelector(props: SearchTagSelectorProps) {
       {tagElems}
     </div>
   );
-
-  async function updateDefaultTags() {
-    const newTags: Tag[] = [];
-    const defaultDocRef = firestore.doc(db, 'props', 'searchBarDefault');
-    const defaultDoc = await firestore.getDoc(defaultDocRef);
-    const newDefaultTags = defaultDoc.data()!.tags;
-    newDefaultTags.forEach(async (tagDocRef: firestore.DocumentReference) => {
-      const tagDoc = await firestore.getDoc(tagDocRef);
-      if (!tagDoc.exists()) {
-        return;
-      }
-      const converted = Tag.fromFirestore(tagDoc.id, tagDoc.data());
-      newTags.push(converted);
-    });
-    setDefaultTags(newTags);
-  }
 
   async function updateAllTags() {
     const newTags: Tag[] = [];
