@@ -2,7 +2,7 @@
 
 import Button from '@/components/button';
 import CardPreview from '@/components/card/preview';
-import CardUserInput from '@/components/card/userinput';
+import Input from '@/components/input';
 import Download from '@/components/download/download';
 import { CardPreviewSide, CardPreviewUtils } from '@/utils/preview';
 import { Template } from '@/utils/template';
@@ -34,7 +34,7 @@ export default function CreateTemplatePage() {
         {
           template && (
             template.elements.map((item) => (
-              <CardUserInput
+              <Input
                 title={item.title}
                 placeholder='' // fix
                 onChange={(text) => CardPreviewUtils.changeTextAll(item.id, text)} // fix

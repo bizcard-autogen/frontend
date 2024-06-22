@@ -1,12 +1,12 @@
 import { ChangeEvent } from 'react';
 
-export type CardUserInputProps = {
+export type InputProps = {
   title?: string,
   placeholder?: string,
   onChange?: (text: string) => void,
 };
 
-export default function CardUserInput(props: CardUserInputProps) {
+export default function Input(props: InputProps) {
   return (
     <div className='flex flex-col'>
       {
