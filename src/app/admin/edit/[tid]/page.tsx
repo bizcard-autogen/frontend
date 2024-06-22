@@ -32,19 +32,17 @@ export default function AdminEditPage() {
         {
           template && (
             <>
-            <Image
-              className='cursor-pointer select-none'
-              src={Template.getTemplatePath(template, CardPreviewSide.Front)}
+            <object
+              data={Template.getTemplatePath(template, CardPreviewSide.Front)}
+              type='image/svg+xml'
               height={151}
               width={250}
-              alt={template.id}
             />
-            <Image
-              className='cursor-pointer select-none'
-              src={Template.getTemplatePath(template, CardPreviewSide.Back)}
+            <object
+              data={Template.getTemplatePath(template, CardPreviewSide.Back)}
+              type='image/svg+xml'
               height={151}
               width={250}
-              alt={template.id}
             />
             </>
           )

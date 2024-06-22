@@ -15,14 +15,14 @@ export default function AdminTemplateItem(props: AdminTemplateItemProps) {
     >
       <div className='flex gap-1'>
         <Image
-          className='cursor-pointer select-none'
+          className='select-none'
           src={Template.getTemplatePath(props.template, CardPreviewSide.Front)}
           height={151 / 2}
           width={250 / 2}
           alt={props.template.id}
         />
         <Image
-          className='cursor-pointer select-none'
+          className='select-none'
           src={Template.getTemplatePath(props.template, CardPreviewSide.Back)}
           height={151 / 2}
           width={250 / 2}
