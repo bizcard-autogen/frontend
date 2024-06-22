@@ -10,7 +10,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import LoadingIcon from '@/icons/loading';
 
-export default function CreateTemplatePage() {
+export default function CreatePage() {
   const { tid } = useParams();
   const [loading, setLoading] = useState(true);
   const [template, setTemplate] = useState<Template>();
