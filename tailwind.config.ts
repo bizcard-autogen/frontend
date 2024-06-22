@@ -14,6 +14,7 @@ const config: Config = {
         faded: '#eff1f7',
         dim: '#6d717d',
         ltdim: '#898e9a',
+        gray: '#777777',
       },
     },
   },

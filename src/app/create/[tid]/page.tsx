@@ -4,14 +4,12 @@ import Button from '@/components/button';
 import CardPreview from '@/components/card/preview';
 import CardUserInput from '@/components/card/userinput';
 import Download from '@/components/download/download';
-import { db } from '@/utils/firebase';
 import { CardPreviewSide, CardPreviewUtils } from '@/utils/preview';
 import { Template } from '@/utils/template';
-import * as firestore from 'firebase/firestore';
 import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-export default function CreateTemplate() {
+export default function CreateTemplatePage() {
   const { tid } = useParams();
   const [template, setTemplate] = useState<Template>();
   const hasUpdatedTemplate = useRef(false);
@@ -22,7 +20,7 @@ export default function CreateTemplate() {
       return;
     }
     hasUpdatedTemplate.current = true;
-    fetchTemplate().then((newTemplate) => {
+    Template.fetch(tid as string).then((newTemplate) => {
       if (newTemplate) {
         setTemplate(newTemplate);
       }
@@ -73,13 +71,4 @@ export default function CreateTemplate() {
     />
     </>
   );
-
-  async function fetchTemplate(): Promise<Template | null> {
-    const templateDocRef = firestore.doc(db, 'templates', tid as string);
-    const templateDoc = await firestore.getDoc(templateDocRef);
-    if (!templateDoc.exists()) {
-      return null;
-    }
-    return Template.fromFirestore(templateDoc.id, templateDoc.data());
-  }
 }
